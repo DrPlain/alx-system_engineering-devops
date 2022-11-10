@@ -2,12 +2,10 @@
 # This script displays "Best School" 9 times and "hi"
 
 i=0
-while (("$i" < 10)); do
-	if (("$i" == 8)); then
-		echo "Hi"
-		((i=i+1))
-		continue
-	fi
+while [ "$i" -lt 10 ]; do
 	echo "Best School"
-	((i=i+1))
+	if [ "$i" -eq 8 ]; then
+		echo "Hi"
+	fi
+	((i++))
 done
