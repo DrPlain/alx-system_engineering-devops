@@ -1,0 +1,8 @@
+#!/usr/bin/env bash
+# Lists all currently running processes containing bash
+#	Must show all processes for all users including those
+#	without TTY
+#	Display in a user-oriented format
+#	Show process hierachy
+
+ps auxf | grep bash
