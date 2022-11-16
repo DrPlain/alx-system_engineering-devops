@@ -1,0 +1,15 @@
+# Networking basics
+- OSI model
+- Different types of network
+- LAN Network
+- WAN Network
+- Internet
+- MAC address
+- What is an IP address
+- Private and public address
+- IPv4 and IPv6
+- Localhost
+- TCP and UDP
+- TCP/UDP ports list
+- What is ping/ICMP
+- Positional parameters
