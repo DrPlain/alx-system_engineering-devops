@@ -1,0 +1,13 @@
+#!/usr/bin/env bash
+
+## Script that automates committing and pushing master to github
+## Accepts one argument which is the commit message
+
+if [ "$#" -eq 0 ]
+then
+	echo "Usage: push \"commit message\""
+else
+	git add .
+	git commit -m"$1"
+	git push origin master
+fi
