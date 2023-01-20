@@ -1,0 +1,39 @@
+#!/usr/bin/env bash
+# Installs HAProxy
+
+sudo apt-get update
+apt-get -y install --no-install-recommends software-properties-common
+add-apt-repository -y ppa:vbernat/haproxy-2.6
+apt-get -y install haproxy=2.6.\*
+
+
+DOMAIN_NAME="sigmacodes.tech"
+CONFIG_FILE="/etc/haproxy/haproxy.cfg"
+INIT_CONFIG_FILE="/etc/default/haproxy"
+check_init=""
+grep -i "ENABLED=1" < $INIT_CONFIG_FILE > check_init
+
+
+HA_PROXY_CONFIG=\
+"
+\nfrontend $DOMAIN_NAME
+\tbind *:80
+\tdefault_backend $DOMAIN_NAME-backend\n
+
+backend $DOMAIN_NAME-backend
+\tserver 74461-web-01 100.26.233.107:80 check
+\tserver 74461-web-02 18.204.8.41:80 check\n
+"
+
+# Create config file
+touch $CONFIG_FILE
+echo -e "$HA_PROXY_CONFIG" | sudo tee -a $CONFIG_FILE
+
+# Check if init is already enabled, else enable
+if [ -z "$check_init" ]
+then
+    echo "ENABLED=1" | sudo tee $INIT_CONFIG_FILE
+fi
+  
+haproxy -f $CONFIG_FILE
+sudo service haproxy restart

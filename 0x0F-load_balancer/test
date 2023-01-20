@@ -1,0 +1,3 @@
+#!/usr/bin/bash
+
+grep -i Enabled=1 < script_test >new
