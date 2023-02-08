@@ -7,13 +7,15 @@ if __name__ == "__main__":
     emp_id = int(argv[1])
     query_str = "https://jsonplaceholder.typicode.com/todos/"
     todos = requests.get(query_str).json()
-    total_tasks = len(todos)
+    total_tasks = 0
     tasks_completed = 0
     titles_completed = []
     for task in todos:
-        if task.get('userId') == emp_id and task.get('completed') is True:
-            tasks_completed = tasks_completed + 1
-            titles_completed.append(task.get('title'))
+        if task.get('userId') == emp_id:
+            total_tasks = total_tasks + 1
+            if task.get('completed') is True:
+                tasks_completed = tasks_completed + 1
+                titles_completed.append(task.get('title'))
 
     query_users = "https://jsonplaceholder.typicode.com/users/"
     users = requests.get(query_users).json()
