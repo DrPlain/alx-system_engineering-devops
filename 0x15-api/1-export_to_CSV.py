@@ -6,23 +6,16 @@ from sys import argv
 
 if __name__ == "__main__":
     emp_id = int(argv[1])
-    query_users = "https://jsonplaceholder.typicode.com/users/"
-    users = requests.get(query_users).json()
-    for user in users:
-        if user.get('id') == (emp_id):
-            emp_username = user.get('username')
+    api = "https://jsonplaceholder.typicode.com"
+    user_details = requests.get("{}/users/{}".format(api, emp_id)).json()
+    username = user_details.get('username')
+    todos = requests.get("{}/todos".format(api)).json()
 
-    query_str = "https://jsonplaceholder.typicode.com/todos/"
-    todos = requests.get(query_str).json()
-    user_list = []
-    for task in todos:
-        tasks_list = [argv[1], emp_username]
-        if task.get('userId') == emp_id:
-            tasks_list.append(task.get('completed'))
-            tasks_list.append(task.get('title'))
-            user_list.append(tasks_list)
-    filename = argv[1] + ".csv"
-    with open(filename, 'w') as f:
-        # creating a csv writer object
-        csvwriter = csv.writer(f)
-        csvwriter.writerows(user_list)
+    with open("{}.csv".format(argv[1]), 'w') as f:
+        for task in todos:
+            if emp_id == task.get("userId"):
+                f.write('"{}","{}","{}","{}"\n'.format(
+                    argv[1],
+                    username,
+                    task.get('completed'),
+                    task.get('title')))
