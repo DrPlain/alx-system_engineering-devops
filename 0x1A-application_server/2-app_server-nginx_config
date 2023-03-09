@@ -1,0 +1,39 @@
+server {
+    # listen on port 80
+    listen 80 default_server;
+    listen [::]:80 default_server;
+
+    # Customize http response header
+    add_header X-Served-By 74461-web-01;
+    root /var/www/sigmacodes.tech;
+    index index.html;
+
+    # Assigning server name
+    server_name 100.26.233.107;
+
+    # Default path for serving web pages
+    location / {
+            try_files $uri $uri/ =404;
+            }
+
+    # Error 404 customization
+    error_page 404 /custom_404.html;
+    location /custom_404.html {
+            internal;
+    }
+    location ~ /redirect_me {
+        return 301 /www.google.com;
+    }
+
+    # Serve HBNB static
+    location /hbnb_static/ {
+                alias /data/web_static/current/;
+    }
+
+    # Serve flask app with one page
+    location = /airbnb-onepage/ {
+        include proxy_params;
+        proxy_pass http://127.0.0.1:5000/airbnb-onepage/;
+    }
+
+}
