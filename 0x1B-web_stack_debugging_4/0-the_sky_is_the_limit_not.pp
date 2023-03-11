@@ -2,9 +2,10 @@
 
 exec { 'fix_limit':
     command => 'sed -i "s/ULIMIT.*/ULIMIT=\"-n 2000\"/" /etc/default/nginx',
-    path    => '/bin'
+    path    => '/bin',
 }
 
 service { 'nginx':
-    ensure      => 'running',
+    ensure    => 'running',
+    subscribe => Exec['fix_limit'],
 }
